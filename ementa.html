@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+  <html lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ementa do Dia</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+      *{ margin:0; padding:0; box-sizing:border-box; }
+      :root{
+        --bg1:#fff4e6; --bg2:#ffe0b5;
+        --texto:#663d00; --texto-forte:#552b00;
+        --titulo:#cc5500; --strong:#b14300;
+        --borda:#ffb347; --borda-forte:#ff8c00;
+        --pill:#fff9f0; --pill-borda:#ff8c42;
+        --rodape:#ffa726; --rodape-borda:#cc5500;
+      }
+      body{
+        font-family:"Nunito", sans-serif;
+        background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+        color:var(--texto); min-height:100vh; display:flex; flex-direction:column; padding:20px 30px;
+      }
+
+      /* Voltar ao início */
+      .voltar{
+        align-self:flex-start; text-decoration:none; font-family:"Baloo 2", cursive; font-weight:700;
+        color:var(--verde-esc); background:#ffffffbb; border:2px solid var(--verde);
+        padding:8px 16px; border-radius:30px; font-size:.95rem; margin-bottom:8px;
+        transition:transform .2s ease;
+      }
+      .voltar:hover{ transform:translateX(-3px); }
+
+      .cabecalho{ text-align:center; margin:10px 0 30px; }
+      .marca-img{ max-width:min(600px,80vw); filter:drop-shadow(0 8px 12px rgba(255,140,0,.35)); }
+      .marca-texto{
+        font-family:"Baloo 2", cursive; font-weight:800;
+        font-size:clamp(2.6rem,7vw,5rem); color:var(--titulo); line-height:1;
+        text-shadow:3px 4px 0 #ffd9a8, 6px 8px 14px rgba(255,140,0,.25);
+      }
+      .marca-hoje{
+        font-family:"Baloo 2", cursive; font-weight:600;
+        font-size:clamp(.85rem,2vw,1.15rem); color:var(--strong); margin-top:.4rem; letter-spacing:.02em;
+      }
+      .palco{ flex:1 0 auto; display:flex; flex-direction:column; align-items:center; width:100%; }
+
+      .especial-zona{ width:100%; max-width:900px; margin:0 auto 40px; }
+      /* Quando o especial toma conta do ecrã, centra-o verticalmente */
+      .palco.takeover{ justify-content:center; }
+      .palco.takeover .especial-zona{ margin:auto; }
+      .especial{
+        background:linear-gradient(145deg,#ffd8b1,#ffc183); border:4px solid #ff7518;
+        border-radius:40px; padding:clamp(1.8rem,4.5vw,3rem); text-align:center;
+        box-shadow:0 25px 50px rgba(255,119,0,.35); position:relative; overflow:hidden;
+      }
+      .especial::before{ content:"✨"; font-size:120px; position:absolute; left:-15px; top:-25px; opacity:.2; transform:rotate(-15deg); }
+      .especial h2{
+        font-family:"Baloo 2", cursive; color:#883e00;
+        font-size:clamp(2rem,5.5vw,3.4rem); margin-bottom:.6rem; animation:pulsar 2.5s infinite;
+      }
+      .especial img{
+        max-width:min(460px,90%); border-radius:18px; border:6px solid #ff9933;
+        box-shadow:0 15px 35px rgba(255,128,0,.5); margin:16px 0;
+      }
+      @keyframes pulsar{ 0%,100%{opacity:1;} 50%{opacity:.82;} }
+
+      .ementas-wrapper{
+        display:flex; flex-wrap:wrap; justify-content:center; align-items:stretch;
+        gap:40px; max-width:1300px; width:100%; margin:0 auto 40px;
+      }
+      .cartao{
+        background-color:#ffffffcc; backdrop-filter:blur(10px);
+        border:3px solid var(--borda); border-radius:35px; padding:clamp(1.6rem,3.5vw,2.5rem);
+        box-shadow:0 20px 40px rgba(255,140,0,.22); flex:1 1 400px; min-width:320px;
+        display:flex; flex-direction:column; align-items:center; text-align:center;
+        transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+      }
+      .cartao:hover{ transform:translateY(-5px); box-shadow:0 25px 50px rgba(255,87,34,.3); border-color:var(--borda-forte); }
+      .cartao--sugestoes{ background:linear-gradient(145deg,#fff1d6,#ffe4bc); border-color:#ffa500; }
+      .cartao h2{
+        font-family:"Baloo 2", cursive; color:var(--titulo); font-size:clamp(1.7rem,4vw,2.5rem);
+        border-bottom:4px solid var(--borda); padding-bottom:16px; margin-bottom:24px; width:100%;
+        display:flex; align-items:center; justify-content:center; gap:.5rem;
+      }
+      .cartao h3{ font-family:"Baloo 2", cursive; color:var(--titulo); font-size:clamp(1.3rem,3vw,1.9rem); margin:14px 0 4px; width:100%; }
+      .pill{
+        font-size:clamp(1.1rem,2.6vw,1.55rem); margin:12px 0; padding:14px 24px;
+        background-color:var(--pill); border-radius:40px; border-left:8px solid var(--pill-borda);
+        color:var(--texto-forte); box-shadow:0 4px 10px rgba(255,140,0,.1);
+        width:100%; text-align:center; font-weight:700;
+      }
+      .pill strong{ color:var(--strong); font-weight:800; }
+      .pill .desc{ display:block; font-size:.72em; font-weight:600; color:#8a5a20; margin-top:.2rem; }
+      .pill .tier{ display:block; font-size:.82em; font-weight:700; color:var(--texto); margin-top:.15rem; }
+      .especial .pill{ background-color:#fff7e6; border-left-color:#ff7518; font-size:clamp(1.2rem,3vw,1.8rem); }
+      .vazio{ font-size:1.3rem; color:#8a5a20; font-weight:700; padding:1.5rem; }
+
+      footer{
+        flex-shrink:0; margin-top:30px; padding:26px 30px; width:100%;
+        background:var(--rodape); color:#fff; font-weight:800; border-top:6px solid var(--rodape-borda);
+      }
+      .rodape-linha{ display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; font-size:clamp(1rem,2vw,1.3rem); letter-spacing:.02em; }
+      .rodape-linha .sep{ opacity:.7; }
+      .social{ display:inline-flex; align-items:center; gap:8px; color:#fff; text-decoration:none; }
+      .social:hover{ text-decoration:underline; }
+      .social svg{ width:26px; height:26px; fill:#fff; }
+      .estado{ margin-top:14px; text-align:center; font-size:.8rem; font-weight:700; opacity:.85; display:flex; align-items:center; justify-content:center; gap:.5rem; }
+      .ponto{ width:9px; height:9px; border-radius:50%; background:#fff; display:inline-block; }
+      .ponto.demo{ background:#ffe9c7; }
+      .ponto.erro{ background:#7a1e14; }
+
+      @media (max-width:768px){
+        body{ padding:15px; }
+        .ementas-wrapper{ gap:22px; }
+        .rodape-linha{ flex-direction:column; gap:10px; }
+        .rodape-linha .sep{ display:none; }
+      }
+      @media (prefers-reduced-motion: reduce){ .especial h2{ animation:none; } .cartao{ transition:none; } }
+    </style>
+  </head>
+  <body>
+
+    <a class="voltar" href="index.html">← Início</a>
+
+    <header class="cabecalho">
+      <div id="marca"></div>
+      <div class="marca-hoje" id="hoje"></div>
+    </header>
+    <div class="palco" id="palco">
+      <div class="especial-zona" id="especialZona"></div>
+      <div class="ementas-wrapper" id="cartoes"></div>
+    </div>
+    <footer>
+      <div class="rodape-linha" id="rodapeLinha"></div>
+      <div class="estado" id="estado"><span class="ponto"></span><span id="estadoTexto">a carregar…</span></div>
+    </footer>
+
+    <script>
+    /* ══════════════════════════════════════════════════════════════════
+      ⚙️  CONFIGURAÇÃO  — é aqui (e só aqui) que mexes
+      ══════════════════════════════════════════════════════════════════ */
+    const CONFIG = {
+      CAFE_NOME: "Isabelinha",
+      LOGO_URL: "images/logo.png",
+
+      TELEFONE:  "214 941 693",
+      HORARIO:   "06h30–19h · Folga à quarta",
+      FACEBOOK:  { nome:"Isabelina LDA",           url:"#" },
+      INSTAGRAM: { nome:"@pastelaria.isabelinha",  url:"#" },
+
+      // ── Sugestões da Casa (FIXAS no código) ──
+      SUGESTOES: {
+        titulo: "Sugestões da Casa",
+        itens: [
+          { prato:"Bife à Casa",                       preco:"16,00 €" },
+          { prato:"Bitoque de Vaca ou Porco",          preco:"10,00 €" },
+          { prato:"Alheiras de Mirandela / Leitão",    preco:"9,00 €" },
+          { prato:"Salsicha com Ovo",                  preco:"7,50 €" },
+          { prato:"Omelete: Queijo, Fiambre ou Mista", preco:"7,50 €" },
+          { prato:"Omelete: Camarão ou Presunto",      preco:"8,00 €" }
+        ]
+      },
+
+      // ── Prato Especial ──
+      ESPECIAL: {
+        // takeover = quando há especial, ele ocupa a montra inteira e esconde
+        // o Prato do Dia e as Sugestões (o esquema do teu original).
+        // Põe false para o especial aparecer só como destaque por cima dos cartões.
+        takeover: true,
+
+        // Especial automático por dia da semana (ex.: leitão ao sábado),
+        // sem precisar de mexer na folha. Deixa dias:[] para desligar.
+        automatico: {
+          dias: [6],                       // 0=Dom 1=Seg 2=Ter 3=Qua 4=Qui 5=Sex 6=Sáb
+          titulo: "Leitão Assado",
+          imagem: "images/leitao.jpg",                      // ex.: "leitao.jpg" (põe o ficheiro na pasta)
+          precos: ["Mini 8,50 €", "Meia 11,00 €", "Dose 15,00 €"]
+        }
+      },
+
+      // 👉 Link CSV publicado do Google Sheets ("" = ementa de exemplo)
+      CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAQFwogMZ-l62Di5o9NO60DYQ0R24PUD7x9FUcKpdY73cPY3GIrL0JiWBw7x3H7bKQua9iHBPokiWg/pub?gid=161567548&single=true&output=csv",
+      INTERVALO_SEGUNDOS: 60,
+      ORDEM_SECOES: ["Prato do Dia", "Sugestões da Casa"],
+      EMOJI: { "prato do dia":"🍽️", "sugestoes da casa":"🏠", "especial":"✨" }
+    };
+
+    /* ── Ementa de exemplo (Prato do Dia + Especial vêm da folha) ─────────
+      Deixei o Especial no exemplo para veres já o "takeover" em ação.       */
+    const DEMO = [
+      { secao:"Especial",     subsecao:"",      prato:"Leitão Assado", descricao:"batata assada e laranja", preco:"Mini 8,50 € · Meia 11,00 € · Dose 15,00 €", imagem:"" },
+      { secao:"Prato do Dia", subsecao:"Sopa",  prato:"Canja de galinha",         descricao:"", preco:"1,50 €", imagem:"" },
+      { secao:"Prato do Dia", subsecao:"Carne", prato:"Vitela assada à antiga",   descricao:"", preco:"Meia 6,50 € · Dose 9,50 €", imagem:"" },
+      { secao:"Prato do Dia", subsecao:"Peixe", prato:"Bacalhau com natas",       descricao:"", preco:"Meia 7,00 € · Dose 10,00 €", imagem:"" }
+    ];
+
+    /* ══════════════════════════════════════════════════════════════════
+      A partir daqui não é preciso mexer.
+      ══════════════════════════════════════════════════════════════════ */
+    (function(){
+      const alvo = document.getElementById("marca");
+      if (CONFIG.LOGO_URL){
+        const img = document.createElement("img");
+        img.className = "marca-img"; img.src = CONFIG.LOGO_URL; img.alt = CONFIG.CAFE_NOME;
+        alvo.appendChild(img);
+      } else {
+        const t = document.createElement("div");
+        t.className = "marca-texto"; t.textContent = CONFIG.CAFE_NOME;
+        alvo.appendChild(t);
+      }
+      document.title = CONFIG.CAFE_NOME + " · Ementa";
+    })();
+
+    (function(){
+      const svgFB = '<svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>';
+      const svgIG = '<svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1C2.6 9.5 2.6 9.9 2.6 12s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 8.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zm6.2-8.3a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0z"/></svg>';
+      document.getElementById("rodapeLinha").innerHTML =
+        `<span>📞 ${CONFIG.TELEFONE}</span><span class="sep">|</span>` +
+        `<span>🕐 ${CONFIG.HORARIO}</span><span class="sep">|</span>` +
+        `<a class="social" href="${CONFIG.FACEBOOK.url}">${svgFB}${CONFIG.FACEBOOK.nome}</a><span class="sep">|</span>` +
+        `<a class="social" href="${CONFIG.INSTAGRAM.url}">${svgIG}${CONFIG.INSTAGRAM.nome}</a>`;
+    })();
+
+    const MESES=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+    const DIAS=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
+    function atualizarData(){
+      const h=new Date();
+      const t=`${DIAS[h.getDay()]}, ${h.getDate()} de ${MESES[h.getMonth()]}`;
+      document.getElementById("hoje").textContent = t.charAt(0).toUpperCase()+t.slice(1);
+    }
+    atualizarData(); setInterval(atualizarData, 60*1000);
+
+    function lerCSV(texto){
+      const linhas=[]; let campo="", linha=[], aspas=false;
+      for(let i=0;i<texto.length;i++){
+        const c=texto[i];
+        if(aspas){
+          if(c==='"'&&texto[i+1]==='"'){campo+='"';i++;}
+          else if(c==='"'){aspas=false;} else{campo+=c;}
+        } else {
+          if(c==='"'){aspas=true;}
+          else if(c===','){linha.push(campo);campo="";}
+          else if(c==='\n'){linha.push(campo);linhas.push(linha);linha=[];campo="";}
+          else if(c==='\r'){} else{campo+=c;}
+        }
+      }
+      if(campo!==""||linha.length){linha.push(campo);linhas.push(linha);}
+      return linhas.filter(l=>l.some(v=>v.trim()!==""));
+    }
+    function normalizar(s){ return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase(); }
+
+    function csvParaItens(texto){
+      const linhas=lerCSV(texto);
+      if(!linhas.length) return [];
+      const cab=linhas[0].map(normalizar);
+      const col=n=>cab.indexOf(n);
+      const idx={
+        secao:[col("seccao"),col("secao")].find(i=>i>-1) ?? -1,
+        subsecao:[col("subseccao"),col("subsecao")].find(i=>i>-1) ?? -1,
+        prato:[col("prato"),col("nome")].find(i=>i>-1) ?? -1,
+        descricao:[col("descricao")].find(i=>i>-1) ?? -1,
+        preco:[col("preco")].find(i=>i>-1) ?? -1,
+        imagem:[col("imagem"),col("foto")].find(i=>i>-1) ?? -1
+      };
+      if(idx.prato===-1){ idx.prato=0; if(idx.preco===-1) idx.preco=1; }
+      const val=(l,i)=> i>-1 ? (l[i]||"").trim() : "";
+      return linhas.slice(1).map(l=>({
+        secao:val(l,idx.secao), subsecao:val(l,idx.subsecao),
+        prato:val(l,idx.prato), descricao:val(l,idx.descricao),
+        preco:val(l,idx.preco), imagem:val(l,idx.imagem)
+      })).filter(it=>it.prato!=="");
+    }
+
+    function criarPill(it){
+      const p=document.createElement("p"); p.className="pill";
+      const tiers=(it.preco||"").split(/\s*·\s*|\s*;\s*/).filter(Boolean);
+      if(tiers.length<=1){
+        p.innerHTML=`<strong>${it.prato}</strong>${it.preco?` — ${it.preco}`:""}`;
+        if(it.descricao) p.innerHTML+=`<span class="desc">${it.descricao}</span>`;
+      } else {
+        p.innerHTML=`<strong>${it.prato}</strong>`;
+        if(it.descricao) p.innerHTML+=`<span class="desc">${it.descricao}</span>`;
+        tiers.forEach(t=> p.innerHTML+=`<span class="tier">${t}</span>`);
+      }
+      return p;
+    }
+
+    let assinatura="";
+    function desenhar(itens){
+      const hoje=new Date().getDay();
+      const nova=JSON.stringify(itens)+"#"+hoje;   // inclui o dia → reavalia o especial automático
+      if(nova===assinatura) return;
+      assinatura=nova;
+
+      const palco=document.getElementById("palco");
+      const especialZona=document.getElementById("especialZona");
+      const cartoes=document.getElementById("cartoes");
+      especialZona.innerHTML=""; cartoes.innerHTML=""; palco.classList.remove("takeover");
+
+      // Especial vindo da folha
+      const especiais=itens.filter(it=>normalizar(it.secao).includes("especial"));
+
+      // Especial automático por dia da semana (ex.: leitão ao sábado)
+      const aut=CONFIG.ESPECIAL && CONFIG.ESPECIAL.automatico;
+      if(aut && Array.isArray(aut.dias) && aut.dias.includes(hoje)){
+        especiais.unshift({
+          secao:"Especial", subsecao:"", prato:aut.titulo||"Especial",
+          descricao:aut.descricao||"", preco:(aut.precos||[]).join(" · "), imagem:aut.imagem||""
+        });
+      }
+
+      // Resto (Prato do Dia da folha) + Sugestões da Casa (fixas do código)
+      const resto=itens.filter(it=>{
+        const s=normalizar(it.secao);
+        return !s.includes("especial") && !s.includes("sugesto");
+      });
+      if(CONFIG.SUGESTOES && CONFIG.SUGESTOES.itens){
+        CONFIG.SUGESTOES.itens.forEach(s=> resto.push({
+          secao: CONFIG.SUGESTOES.titulo || "Sugestões da Casa",
+          subsecao:"", prato:s.prato||"", descricao:s.descricao||"", preco:s.preco||"", imagem:""
+        }));
+      }
+
+      // Desenha o banner do especial
+      if(especiais.length){
+        const box=document.createElement("div"); box.className="especial";
+        const emoji=CONFIG.EMOJI["especial"]||"✨";
+        box.innerHTML=`<h2>${emoji} Prato Especial ${emoji}</h2>`;
+        especiais.forEach(it=>{
+          if(it.imagem){ const im=document.createElement("img"); im.src=it.imagem; im.alt=it.prato; box.appendChild(im); }
+          box.appendChild(criarPill(it));
+        });
+        especialZona.appendChild(box);
+      }
+
+      // TAKEOVER: havendo especial, a montra é só para ele (esconde os cartões)
+      if(especiais.length && CONFIG.ESPECIAL && CONFIG.ESPECIAL.takeover){
+        palco.classList.add("takeover");
+        return;
+      }
+
+      if(!resto.length && !especiais.length){
+        cartoes.innerHTML='<div class="cartao"><div class="vazio">A ementa de hoje ainda não foi publicada.</div></div>';
+        return;
+      }
+
+      // Agrupa por secção, pela ordem definida
+      const grupos={}; const ordem=[];
+      resto.forEach(it=>{
+        const chave=it.secao||"Ementa";
+        if(!grupos[chave]){ grupos[chave]=[]; ordem.push(chave); }
+        grupos[chave].push(it);
+      });
+      const ordenadas=[...CONFIG.ORDEM_SECOES.filter(s=>grupos[s]), ...ordem.filter(s=>!CONFIG.ORDEM_SECOES.includes(s))];
+
+      ordenadas.forEach(nome=>{
+        const cartao=document.createElement("div"); cartao.className="cartao";
+        if(normalizar(nome).includes("sugesto")) cartao.classList.add("cartao--sugestoes");
+        const emoji=CONFIG.EMOJI[normalizar(nome)]||"🍴";
+        const h2=document.createElement("h2"); h2.textContent=`${nome} ${emoji}`; cartao.appendChild(h2);
+
+        const subGrupos={}; const subOrdem=[];
+        grupos[nome].forEach(it=>{
+          const s=it.subsecao||"";
+          if(!(s in subGrupos)){ subGrupos[s]=[]; subOrdem.push(s); }
+          subGrupos[s].push(it);
+        });
+        subOrdem.forEach(s=>{
+          if(s){ const h3=document.createElement("h3"); h3.textContent=s; cartao.appendChild(h3); }
+          subGrupos[s].forEach(it=> cartao.appendChild(criarPill(it)));
+        });
+        cartoes.appendChild(cartao);
+      });
+    }
+
+    function definirEstado(tipo,texto){
+      document.querySelector("#estado .ponto").className="ponto"+(tipo==="demo"?" demo":tipo==="erro"?" erro":"");
+      document.getElementById("estadoTexto").textContent=texto;
+    }
+
+    async function buscar(){
+      if(!CONFIG.CSV_URL){
+        desenhar(DEMO);
+        definirEstado("demo","Ementa de exemplo — falta ligar a folha do Google");
+        return;
+      }
+      try{
+        const url=CONFIG.CSV_URL+(CONFIG.CSV_URL.includes("?")?"&":"?")+"t="+Date.now();
+        const r=await fetch(url);
+        if(!r.ok) throw new Error("HTTP "+r.status);
+        const itens=csvParaItens(await r.text());
+        desenhar(itens);
+        const h=new Date();
+        definirEstado("ok",`Atualizado às ${String(h.getHours()).padStart(2,"0")}:${String(h.getMinutes()).padStart(2,"0")}`);
+      }catch(e){
+        console.error("Falha ao ler a ementa:",e);
+        if(assinatura==="") desenhar(DEMO);
+        definirEstado("erro","Sem ligação — a mostrar a última ementa");
+      }
+    }
+    buscar(); setInterval(buscar, CONFIG.INTERVALO_SEGUNDOS*1000);
+  </script>
+  </body>
+  </html>

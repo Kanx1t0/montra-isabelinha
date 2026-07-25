@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+  <html lang="pt">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isabelinha</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+      *{ margin:0; padding:0; box-sizing:border-box; }
+      :root{
+        --bg1:#fff4e6; --bg2:#ffe0b5;
+        --texto:#663d00; --titulo:#cc5500; --strong:#b14300;
+        --borda:#ffb347; --rodape:#ffa726; --rodape-borda:#cc5500;
+        --verde:#2f6b4f; --verde-esc:#245741;
+      }
+      body{
+        font-family:"Nunito", sans-serif;
+        background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+        color:var(--texto); min-height:100vh; display:flex; flex-direction:column;
+      }
+
+      .topo{ flex:1 0 auto; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 24px; }
+      .marca-texto{
+        font-family:"Baloo 2", cursive; font-weight:800;
+        font-size:clamp(3rem,9vw,6rem); color:var(--titulo); line-height:1;
+        text-shadow:3px 4px 0 #ffd9a8, 6px 8px 14px rgba(255,140,0,.25);
+      }
+      .marca-img{ max-width:min(560px,85vw); filter:drop-shadow(0 8px 12px rgba(255,140,0,.35)); }
+      .tagline{
+        font-family:"Baloo 2", cursive; font-weight:600; color:var(--strong);
+        font-size:clamp(1rem,2.4vw,1.4rem); margin-top:.5rem;
+      }
+      .data{
+        font-family:"Nunito", sans-serif; font-weight:700; color:#a06a2a;
+        font-size:clamp(.8rem,1.8vw,1rem); margin-top:.15rem; letter-spacing:.02em;
+      }
+
+      .botoes{
+        display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(20px,4vw,40px);
+        margin-top:clamp(2rem,5vw,3.5rem); width:100%; max-width:900px;
+      }
+      .botao{
+        flex:1 1 320px; max-width:420px; text-decoration:none;
+        border-radius:32px; padding:clamp(2rem,4vw,2.8rem); text-align:center;
+        display:flex; flex-direction:column; align-items:center; gap:.4rem;
+        transition:transform .25s ease, box-shadow .25s ease;
+        border:4px solid transparent;
+      }
+      .botao:hover, .botao:focus-visible{ transform:translateY(-6px); }
+      .botao .icone{ font-size:clamp(3rem,7vw,4.5rem); line-height:1; }
+      .botao .titulo{ font-family:"Baloo 2", cursive; font-weight:800; font-size:clamp(1.5rem,3.6vw,2.2rem); }
+      .botao .sub{ font-weight:700; font-size:clamp(.9rem,2vw,1.1rem); opacity:.9; }
+
+      .botao--ementa{
+        background:linear-gradient(145deg,#ffffffdd,#fff1d6);
+        border-color:var(--borda); color:var(--titulo);
+        box-shadow:0 20px 40px rgba(255,140,0,.22);
+      }
+      .botao--ementa:hover{ box-shadow:0 28px 52px rgba(255,87,34,.3); border-color:#ff8c00; }
+
+      .botao--natal{
+        background:linear-gradient(145deg,#2f6b4f,#245741);
+        border-color:#1e4835; color:#fff;
+        box-shadow:0 20px 40px rgba(36,87,65,.35);
+      }
+      .botao--natal .sub{ color:#d8ece1; }
+      .botao--natal:hover{ box-shadow:0 28px 52px rgba(36,87,65,.45); border-color:#b5852a; }
+
+      footer{
+        flex-shrink:0; padding:24px 30px; width:100%;
+        background:var(--rodape); color:#fff; font-weight:800; border-top:6px solid var(--rodape-borda);
+      }
+      .rodape-linha{ display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; font-size:clamp(1rem,2vw,1.25rem); }
+      .rodape-linha .sep{ opacity:.7; }
+      .social{ display:inline-flex; align-items:center; gap:8px; color:#fff; text-decoration:none; }
+      .social:hover{ text-decoration:underline; }
+      .social svg{ width:24px; height:24px; fill:#fff; }
+
+      @media (max-width:768px){
+        .rodape-linha{ flex-direction:column; gap:10px; }
+        .rodape-linha .sep{ display:none; }
+      }
+      @media (prefers-reduced-motion: reduce){ .botao{ transition:none; } }
+    </style>
+
+    </head>
+    
+    <body>
+      <div class="topo">
+        <div class="marca-texto">Isabelinha</div>
+        <div class="tagline">Pastelaria &amp; Restaurante</div>
+        <div class="data" id="data"></div>
+
+        <nav class="botoes">
+          <a class="botao botao--ementa" href="ementa.html">
+            <span class="icone">🍽️</span>
+            <span class="titulo">Ementa do Dia</span>
+            <span class="sub">Pratos do dia e sugestões da casa</span>
+          </a>
+          <a class="botao botao--natal" href="natal.html">
+            <span class="icone">🎄</span>
+            <span class="titulo">Reservas de Natal</span>
+            <span class="sub">Encomendas e preços da época</span>
+          </a>
+        </nav>
+      </div>
+
+      <footer>
+        <div class="rodape-linha">
+          <span>📞 214 941 693</span>
+          <span class="sep">|</span>
+          <span>🕐 06h30–19h · Folga à quarta</span>
+          <span class="sep">|</span>
+          <a class="social" href="#"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>Isabelina LDA</a>
+          <span class="sep">|</span>
+          <a class="social" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1C2.6 9.5 2.6 9.9 2.6 12s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 8.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zm6.2-8.3a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0z"/></svg>@pastelaria.isabelinha</a>
+        </div>
+      </footer>
+
+      <script>
+        const MESES=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+        const DIAS=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
+        const h=new Date();
+        const t=`${DIAS[h.getDay()]}, ${h.getDate()} de ${MESES[h.getMonth()]}`;
+        document.getElementById("data").textContent = t.charAt(0).toUpperCase()+t.slice(1);
+      </script>
+    </body>
+  </html>
